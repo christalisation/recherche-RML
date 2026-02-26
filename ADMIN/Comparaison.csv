@@ -1,0 +1,28 @@
+	ULB-Darmstadt	Danielbeeck	Shaperone	TopQuadrant	SHAPEness Metadata Editor (EPOS-EU)
+Repository	github.com/ULB-Darmstadt/shacl-form	github.com/danielbeeke/shacl-form	github.com/hypermedia-app/shaperone	github.com/TopQuadrant/shacl (SHACL API, non UI)	github.com/epos-eu/SHAPEness-Metadata-Editor
+Status	Active	Inactive since 2023	Active	Commercial product (TopBraid EDG, actively maintained)	Active
+Main Approach	HTML5 web component for editing/viewing RDF data that conform to SHACL shapes	TypeScript form builder based on Web Components, using SHACL shapes as definitions	Framework-agnostic form UI renderer driven by SHACL shapes	Enterprise SHACL environment with form generation driven by DASH vocabulary (dash:editor, dash:viewer, sh:group, sh:order, etc.)	"Java desktop application; SHACL-driven multi-view editor (graph, form, tree) for RDF metadata"
+Notes/Questions					
+Avantages	- Détection + affichage des erreurs du SHACL d'entrée				
+"- Possibilité d'utiliser des instances existantes via setClassInstanceProvider"""	- Widget modularity : création de widgets customElements				
+"- Display modules"""	- Plusieurs NodeShape possibles à la racine	- Vocabulaire DASH pour choisir les widgets (dash:editor, dash:viewer)			
+"- Utilisation de sh:group et sh:order pour structurer les formulaires"""	- Multi-view (graph/form/tree) fondé sur des shapes SHACL				
+Inconvenients	- Création d'une seule instance de noeud possible				
+"- Toujours le premier noeud choisi par défaut"""	- Projet non maintenu depuis 2023			Informations détaillées sur les limitations UI non documentées publiquement	
+sh:xone	OUI: liste déroulante 'Please choose'	NON	NON: contraintes pas du tout prises en compte		 
+sh:or	OUI: liste déroulante + possibilité d'ajouter selon sh:maxCount	NON (problème sh:or observé)	NON		 
+sh:pattern	OUI, mais l'erreur peut n'apparaître qu'à l'export du graphe	? Pas sûre, pas de message d'erreur affiché	NON: pas du tout pris en compte		 
+sh:message	NON (messages natifs du navigateur uniquement)	NON	NON		 
+sh:group (visuel)	OUI	OUI	NON	OUI (via DASH et FormPanel)	 
+sh:order	OUI (doc), mais comportement à vérifier dans la pratique	OUI	OUI	OUI (utilisé pour l'ordre des champs)	 
+sh:class (imbrications)	OUI	OUI	OK		 
+sh:description	OUI: affiché dans le champ à remplir (mais pas dans la liste déroulante sh:xone)	OUI: affiché sous sh:name	OUI: affiché au survol du champ		 
+sh:name	OUI	OUI	OUI		 
+sh:node	OUI	OUI	OUI		 
+download the graph	OUI: bouton Export (.ttl)	NON (bouton SAVE au comportement non clair)	NON, graphe seulement affiché		 
+sh:maxCount 0	OK pour des sh:node, moins pour les propriétés	À ne pas utiliser	À ne pas utiliser		 
+sh:alternativePath	Non géré explicitement				
+logical operators					
+sh:in					
+rdfs:comment	Bonne pratique : remplacer par sh:description				
+Handling prefixes					
