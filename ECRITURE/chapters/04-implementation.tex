@@ -1,0 +1,45 @@
+% ============================================================
+% Chapter 4 – Implementation
+% chapters/04-implementation.tex
+% ============================================================
+
+\chapter{Implementation}
+\label{chap:implementation}
+
+\todo[inline]{Y justifier mes choix techniques:
+\begin{itemize}
+    \item le formulaire j'ai choisi à l'aide de mon tableau de comparaison.csv
+    \item cmt j'ai implémenter les shapes
+    \item cmt j'aurai géré les imbrications
+\end{itemize}
+}
+
+This chapter describes the realisation of the conceptual solution presented above,
+focusing on the RML-core use case as a concrete evaluation scenario.
+
+\subsection{Choice of Base Form Library}
+
+From the state-of-the-art comparison (see Table~\ref{tab:comparison}), the
+\textit{ULB-Darmstadt shacl-form} was selected as the base library. It offers the
+broadest support for the SHACL features required by our use case --- in particular
+\texttt{sh:or} and \texttt{sh:xone} rendered as dropdowns --- and its open-source,
+TypeScript-based architecture makes it amenable to extension.
+
+\subsection{RML Shape Design}
+
+Rather than using the official RML-Core shapes directly --- which are designed for
+validation and produce deeply nested, difficult-to-render forms --- we designed a
+shape profile (\texttt{rml-shape.ttl}) oriented towards form
+generation.
+\% TODO Expliquer ce que j'ai transformer en justifiant par les steps décrits au chapter 3.
+
+This profile retains the semantic correctness of RML while reducing
+unnecessary nesting (e.g.\ collapsing \texttt{AbstractLogicalSource} into
+\texttt{LogicalSource}) and replacing unsupported constructs such as
+\texttt{sh:alternativePath} with \texttt{sh:xone}.
+
+\subsection{Multi-Node and Node Reuse}
+
+\todo[inline]{Décrire concrètement: (1) le wrapper shape ex:Mapping ou une autre solution,
+(2) l'utilisation/adaptation de setClassInstanceProvider pour la réutilisation
+de nœuds créés pendant la session.}

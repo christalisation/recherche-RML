@@ -1,0 +1,55 @@
+\documentclass{report}
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[colorinlistoftodos]{todonotes}
+%--- For the bibliography ---
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+%--- For the code parts ---
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{booktabs}
+
+%--- For drawings and images ---
+\usepackage{svg}
+\usepackage{subcaption}
+\usepackage{amssymb}
+
+% style pour le code Turtle
+\lstdefinestyle{turtle}{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{orange},
+  breaklines=true,
+  frame=single
+}
+
+\title{Master thesis}
+\author{Christal Mangolopa}
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\input{chapters/01-introduction.tex}
+
+\input{chapters/02-background.tex}
+
+\input{chapters/03-conceptualisation.tex}
+
+%\input{chapters/04-implementation.tex}
+
+\input{chapters/05-evaluation.tex}
+
+%\input{chapters/06-discussion.tex}
+
+\input{chapters/07-cls-fw.tex}
+
+\end{document}

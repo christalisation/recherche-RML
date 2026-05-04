@@ -1,0 +1,156 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{rml-core}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=fff8b8eafcbe2d2849f8884faabed11b}{%
+           family={community},
+           familyi={c\bibinitperiod},
+           given={RML},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{fullhash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{fullhashraw}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{bibnamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorbibnamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authornamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorfullhash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorfullhashraw}{fff8b8eafcbe2d2849f8884faabed11b}
+      \field{sortinit}{c}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://rml.io/specs/rml-core/}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{RML Core Specification}
+      \field{year}{2021}
+    \endentry
+    \entry{dash-spec}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{bibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorbibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authornamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \field{extraname}{1}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://datashapes.org/dash}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{DASH Data Shapes Vocabulary}
+      \field{year}{2021}
+    \endentry
+    \entry{dash-forms}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{bibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorbibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authornamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \field{extraname}{2}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://datashapes.org/forms.html}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{Form Generation using SHACL and DASH}
+      \field{year}{2022}
+    \endentry
+    \entry{w3c-shacl}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+        {{hash=aad97cc17257a23ec41f28e1b3fa68b3}{%
+           family={Kontokostas},
+           familyi={K\bibinitperiod},
+           given={Dimitris},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{fullhash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{fullhashraw}{298d4cb3219b35445dca34222b1e6590}
+      \strng{bibnamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorbibnamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authornamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorfullhash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorfullhashraw}{298d4cb3219b35445dca34222b1e6590}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.w3.org/TR/shacl/}}
+      \field{note}{W3C Recommendation, accessed 2026-04-14}
+      \field{title}{Shapes Constraint Language (SHACL)}
+      \field{year}{2017}
+    \endentry
+    \entry{ulb-darmstadt-shacl-form}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9dcf32473d2bd82334b6b6d585d103a4}{%
+           family={ULB-Darmstadt},
+           familyi={U\bibinithyphendelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{bibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorbibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authornamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/ULB-Darmstadt/shacl-form}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHACL Form: HTML5 web component for editing/viewing RDF data that conform to SHACL shapes}
+      \field{year}{2023}
+    \endentry
+  \enddatalist
+  \missing{rmlcore}
+\endrefsection
+\endinput
+

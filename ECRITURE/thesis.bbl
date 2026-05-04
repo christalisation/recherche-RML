@@ -1,0 +1,394 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{danielbeeke-shacl-form}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=4116f122188edda1f16beff611a2d2bb}{%
+           family={Beeke},
+           familyi={B\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{fullhash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{fullhashraw}{4116f122188edda1f16beff611a2d2bb}
+      \strng{bibnamehash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{authorbibnamehash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{authornamehash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{authorfullhash}{4116f122188edda1f16beff611a2d2bb}
+      \strng{authorfullhashraw}{4116f122188edda1f16beff611a2d2bb}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/danielbeeke/shacl-form}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{shacl-form: A TypeScript form builder that uses SHACL shapes as definition}
+      \field{year}{2023}
+    \endentry
+    \entry{rml-core}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=fff8b8eafcbe2d2849f8884faabed11b}{%
+           family={community},
+           familyi={c\bibinitperiod},
+           given={RML},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{fullhash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{fullhashraw}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{bibnamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorbibnamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authornamehash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorfullhash}{fff8b8eafcbe2d2849f8884faabed11b}
+      \strng{authorfullhashraw}{fff8b8eafcbe2d2849f8884faabed11b}
+      \field{sortinit}{c}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://rml.io/specs/rml/}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{RML Core Specification}
+      \field{year}{2021}
+    \endentry
+    \entry{kg:rmlcore}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a68df8058215aaaaf537ffccd304f89b}{%
+           family={{KG-Construct Community Group}},
+           familyi={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{fullhash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{fullhashraw}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{bibnamehash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{authorbibnamehash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{authornamehash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{authorfullhash}{a68df8058215aaaaf537ffccd304f89b}
+      \strng{authorfullhashraw}{a68df8058215aaaaf537ffccd304f89b}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://kg-construct.github.io/rml-core/spec/docs/}}
+      \field{note}{Accessed 2026-05-04}
+      \field{title}{{RML Core Specification: Mapping Graphs and the RML Vocabulary}}
+      \field{year}{2026}
+    \endentry
+    \entry{shapeness-github}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=de30fc19093171d707682dddce7e6814}{%
+           family={EPOS-EU},
+           familyi={E\bibinithyphendelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{de30fc19093171d707682dddce7e6814}
+      \strng{fullhash}{de30fc19093171d707682dddce7e6814}
+      \strng{fullhashraw}{de30fc19093171d707682dddce7e6814}
+      \strng{bibnamehash}{de30fc19093171d707682dddce7e6814}
+      \strng{authorbibnamehash}{de30fc19093171d707682dddce7e6814}
+      \strng{authornamehash}{de30fc19093171d707682dddce7e6814}
+      \strng{authorfullhash}{de30fc19093171d707682dddce7e6814}
+      \strng{authorfullhashraw}{de30fc19093171d707682dddce7e6814}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/epos-eu/SHAPEness-Metadata-Editor}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHAPEness Metadata Editor}
+      \field{year}{2020}
+    \endentry
+    \entry{shaperone-examples}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=83e9ff036ed64c56ac8a62ac281193c1}{%
+           family={hypermedia.app},
+           familyi={h\bibinitperiod}}}%
+      }
+      \strng{namehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{fullhash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{fullhashraw}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{bibnamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorbibnamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authornamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorfullhash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorfullhashraw}{83e9ff036ed64c56ac8a62ac281193c1}
+      \field{extraname}{1}
+      \field{sortinit}{h}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://forms.hypermedia.app/playground/}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{Shaperone Examples and Playground}
+      \field{year}{2021}
+    \endentry
+    \entry{shaperone-github}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=83e9ff036ed64c56ac8a62ac281193c1}{%
+           family={hypermedia.app},
+           familyi={h\bibinitperiod}}}%
+      }
+      \strng{namehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{fullhash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{fullhashraw}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{bibnamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorbibnamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authornamehash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorfullhash}{83e9ff036ed64c56ac8a62ac281193c1}
+      \strng{authorfullhashraw}{83e9ff036ed64c56ac8a62ac281193c1}
+      \field{extraname}{2}
+      \field{sortinit}{h}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/hypermedia-app/shaperone}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{Shaperone: Form UI elements driven by SHACL shapes}
+      \field{year}{2020}
+    \endentry
+    \entry{shapeness-knmi}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=46be31a5b5ed95c6dc595623321713d4}{%
+           family={KNMI},
+           familyi={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{fullhash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{fullhashraw}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{bibnamehash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{authorbibnamehash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{authornamehash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{authorfullhash}{46be31a5b5ed95c6dc595623321713d4}
+      \strng{authorfullhashraw}{46be31a5b5ed95c6dc595623321713d4}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.knmi.nl/research/publications/shapeness-a-shacl-driven-metadata-editor}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHAPEness: A SHACL-Driven Metadata Editor}
+      \field{year}{2022}
+    \endentry
+    \entry{dash-spec}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{bibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorbibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authornamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \field{extraname}{1}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://datashapes.org/dash}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{DASH Data Shapes Vocabulary}
+      \field{year}{2021}
+    \endentry
+    \entry{dash-forms}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{fullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{bibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorbibnamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authornamehash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhash}{0976c9ea4273720766d1f30c98e29f16}
+      \strng{authorfullhashraw}{0976c9ea4273720766d1f30c98e29f16}
+      \field{extraname}{2}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://datashapes.org/forms.html}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{Form Generation using SHACL and DASH}
+      \field{year}{2022}
+    \endentry
+    \entry{w3c-shacl}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=0976c9ea4273720766d1f30c98e29f16}{%
+           family={Knublauch},
+           familyi={K\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+        {{hash=aad97cc17257a23ec41f28e1b3fa68b3}{%
+           family={Kontokostas},
+           familyi={K\bibinitperiod},
+           given={Dimitris},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{fullhash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{fullhashraw}{298d4cb3219b35445dca34222b1e6590}
+      \strng{bibnamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorbibnamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authornamehash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorfullhash}{298d4cb3219b35445dca34222b1e6590}
+      \strng{authorfullhashraw}{298d4cb3219b35445dca34222b1e6590}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.w3.org/TR/shacl/}}
+      \field{note}{W3C Recommendation, accessed 2026-04-14}
+      \field{title}{Shapes Constraint Language (SHACL)}
+      \field{year}{2017}
+    \endentry
+    \entry{hydra-shacl-shaperone}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=fd85ae5a2132dacf74adf4247e87e91c}{%
+           family={Pluskiewicz},
+           familyi={P\bibinitperiod},
+           given={Tomasz},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{fullhash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{fullhashraw}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{bibnamehash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{authorbibnamehash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{authornamehash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{authorfullhash}{fd85ae5a2132dacf74adf4247e87e91c}
+      \strng{authorfullhashraw}{fd85ae5a2132dacf74adf4247e87e91c}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://t-code.pl/blog/2020/12/hydra-shacl-interoperability/}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{Hydra and SHACL - a perfect couple}
+      \field{year}{2020}
+    \endentry
+    \entry{topbraid-edg}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=ffcae3313f712f566136fc6d64433acc}{%
+           family={TopQuadrant},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{fullhash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{fullhashraw}{ffcae3313f712f566136fc6d64433acc}
+      \strng{bibnamehash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{authorbibnamehash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{authornamehash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{authorfullhash}{ffcae3313f712f566136fc6d64433acc}
+      \strng{authorfullhashraw}{ffcae3313f712f566136fc6d64433acc}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.topquadrant.com/doc/8.5/reference/FormPanel.html}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{TopBraid EDG Form Panel Documentation}
+      \field{year}{2024}
+    \endentry
+    \entry{ulb-darmstadt-shacl-form-demo}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9dcf32473d2bd82334b6b6d585d103a4}{%
+           family={ULB-Darmstadt},
+           familyi={U\bibinithyphendelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{bibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorbibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authornamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \field{extraname}{1}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://ulb-darmstadt.github.io/shacl-form/}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHACL Form Demo}
+      \field{year}{2023}
+    \endentry
+    \entry{ulb-darmstadt-npm}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9dcf32473d2bd82334b6b6d585d103a4}{%
+           family={ULB-Darmstadt},
+           familyi={U\bibinithyphendelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{bibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorbibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authornamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \field{extraname}{2}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.npmjs.com/package/@ulb-darmstadt/shacl-form}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHACL Form Generator (npm package)}
+      \field{year}{2025}
+    \endentry
+    \entry{ulb-darmstadt-shacl-form}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9dcf32473d2bd82334b6b6d585d103a4}{%
+           family={ULB-Darmstadt},
+           familyi={U\bibinithyphendelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{fullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{bibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorbibnamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authornamehash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhash}{9dcf32473d2bd82334b6b6d585d103a4}
+      \strng{authorfullhashraw}{9dcf32473d2bd82334b6b6d585d103a4}
+      \field{extraname}{3}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/ULB-Darmstadt/shacl-form}}
+      \field{note}{Accessed 2026-04-14}
+      \field{title}{SHACL Form: HTML5 web component for editing/viewing RDF data that conform to SHACL shapes}
+      \field{year}{2023}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

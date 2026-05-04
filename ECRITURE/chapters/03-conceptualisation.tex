@@ -1,0 +1,468 @@
+% ============================================================
+% Chapter 3 – Conceptualisation
+% chapters/03-conceptualisation.tex
+% ============================================================
+
+\chapter{Conceptualisation}
+\label{chap:conceptualisation}
+
+The previous chapter surveyed three existing SHACL-based form generators and compared their ability to handle the subset of SHACL features required for our use case. This analysis revealed a consistent pattern: those tools handle a limited, well-defined subset of the SHACL vocabulary, and assume that a form renders a single root node. For simple domains, this is sufficient. However, for the sake of this research question --- how to support form-based RDF graph authoring in a complex domain like RML --- it is not.
+
+This chapter moves from observation to design. We first articulate the research gap precisely, then derive a set of design requirements. We propose a conceptual strategy composed of three elements: a classification of SHACL features with respect to form generation, a shape annotation methodology to encode interaction hints, and a mechanism to bridge the structural mismatch between trees and graphs. The chapter concludes with a discussion of the interface design principles and a description of the intended mockups.
+
+The contribution of this chapter is conceptual, not yet implementational. The question it answers is: \emph{what must a form-friendly SHACL shape profile look like, and what interaction model is needed to support graph authoring?} The following chapter will describe how this design was realised in practice.
+
+% -----DICLAIMER-------------------------------------------------------
+%QUESTION: est ce une bonne idée de mettre ce disclaimer ? Je trouve que ça aide à clarifier le scope de ce chapitre, mais je ne veux pas que ça amoidrisse la valeur de ce travail, ou fasse perdre l'interet du lecteur.
+\subsection{Scope of this chapter}
+\label{sec:scope}
+
+A recurring question in SHACL form generation is: should the form aim to handle \emph{any} SHACL shape, or only shapes from a specific domain?
+The answer adopted here is the latter, and it is important to state this explicitly from the outset.
+
+A fully generic SHACL form engine would need to handle the entire SHACL vocabulary, including SHACL-SPARQL extensions, and make sensible rendering decisions for every combination of constraints.
+This is an open research problem, and existing tools demonstrate that even partial solutions require significant engineering effort and inevitably leave some features unsupported~\cite{ulb-darmstadt-shacl-form}.
+
+The contribution of this chapter is instead a \emph{methodology}: a principled approach to writing form-friendly shape profiles and extending an existing tool to support the resulting profiles.
+RML-core serves as the vehicle for demonstrating and evaluating this methodology. The fact that the implementation chapter focuses on a specific domain is not a limitation; it is the intended scope, chosen because RML is a sufficiently complex and practically relevant domain to stress-test the methodology.
+The implementation chapter will describe precisely which parts of RML-core are covered and which are not, and why.
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+
+%----Introduction---------------------------------------------
+The core tension motivating this thesis can be stated precisely. SHACL was designed primarily to \emph{validate} RDF graphs: given an existing graph, does it conform to a set of constraints?
+Yet the W3C specification itself acknowledges, from its very abstract, that shape descriptions ``may be used for a variety of purposes beside validation, including \emph{user interface building}, code generation and data integration''~\cite{w3c-shacl}.
+Form generation exploits precisely this secondary role: given a set of constraints, produce an interface that \emph{guides the user in creating} a conforming graph.
+As Knublauch---co-editor of the SHACL specification~\cite{w3c-shacl} and author of the DASH Data Shapes vocabulary~\cite{dash-spec}---notes in his document \textit{Form Generation using SHACL and DASH Unofficial Draft 01 November 2022}, constraint properties such as \texttt{sh:datatype} and \texttt{sh:maxCount} were ``originally designed for data validation yet are also instrumental in building user input forms''~\cite{dash-forms}.
+
+These two uses therefore share the same vocabulary but place different demands on it: validation operates on a graph that already exists, whereas form generation must produce an interface \emph{before} the graph exists.
+
+%----First problem---------------------------------------------
+\subsection{Not all SHACL constraints can drive a form}
+\label{sec:static-interp}
+
+A form generator faces a fundamental asymmetry with respect to a validator. A validator operates \emph{after the fact}: it receives a complete RDF graph and checks whether it satisfies a set of constraints.
+A form generator must operate \emph{before the fact}: it must produce an interface that guides the user towards a conforming graph, without yet knowing what the user will enter.
+This asymmetry has a direct consequence: only those SHACL constraints that describe the \emph{expected structure} of the data---independently of any concrete value---can be translated into form elements.
+
+For the purposes of this thesis, we introduce the term \emph{statically interpretable} to characterise SHACL constraints whose contribution to the form structure---widget type, cardinality, structural branching---can be determined from the shape definition alone, without knowledge of any concrete data value.
+Constraints that can only be checked against a complete data graph are by contrast \emph{dynamically interpretable}, and fall outside the scope of form generation.
+
+Consider \texttt{sh:sparql}~\cite{w3c-shacl}, which attaches an arbitrary SPARQL query as a constraint. Whether a value satisfies such a constraint can only be determined by running the query against the complete data graph. 
+There is no way to derive a widget, a field type, or a cardinality rule from a SPARQL query alone: the constraint is \emph{dynamically interpretable}, not \emph{statically interpretable}.
+
+A more directly relevant example in the context of our use case---RML--- is \texttt{sh:alternativePath}.
+This SHACL path expression allows a property shape to match \emph{any} of a set of predicates: for instance, the RML-core specification uses it to express that \texttt{rml:subjectMap} and \texttt{rml:subject} are interchangeable shortcuts for the same concept.
+From a validation standpoint this is perfectly sound.
+From a form-generation standpoint, however, it is ambiguous: the form engine does not know which predicate to use when writing the output triple, and most lightweight form builders either expose all alternatives simultaneously---producing duplicate fields---or ignore the construct entirely.
+Neither behaviour is acceptable for a usable interface.
+
+The decision taken in this thesis is therefore to exclude \texttt{sh:alternativePath} from the form profile and to commit to a single
+canonical predicate for each property, namely the long form (e.g.\ \texttt{rml:subjectMap} rather than \texttt{rml:subject}). This choice is semantically conformant with the RML-core specification, which defines the short form as syntactic sugar for the long form~\cite{rml-core} (see Section~\ref{sec:shape-profile}).
+% TODO:ajouter cette section et bien y mettre le \label
+
+The question is therefore not \emph{can we support all of SHACL in a form?} --- the answer is clearly no --- but rather: \emph{which subset of SHACL is both sufficiently expressive for our use case and statically interpretable by a form engine?}
+
+One might ask whether restricting the shape profile to statically interpretable constructs is overly conservative.
+A richer approach could generate a form that performs dynamic validation---running SPARQL constraints in the background as the user types, for instance.
+This thesis does not pursue that direction: the goal is to show that a \emph{purely static} interpretation of SHACL is already sufficient
+to guide the authoring of RML-core mappings, while keeping the rendering engine simple and generic.
+Dynamic validation remains a natural avenue for future work.
+
+%----Cloture--------------------------------------------------------
+% À ENLEVER si trop redondant avec l'intro de la section suivante
+The following subsection addresses a second, orthogonal problem:
+the structural mismatch between the tree model assumed by HTML forms
+and the genuine graph structure of RML mappings.
+
+%----Second problem--------------------------------------------
+\subsection{From Tree to Graph: Structural Limitations of Existing Tools}
+\label{sec:tree-to-graph}
+
+A second, orthogonal problem concerns the structural mismatch between
+the data model targeted by RML and the rendering model assumed by
+existing form builders.
+
+\paragraph{The single-root assumption.}
+Each of the SHACL-based form tools surveyed in this thesis shares a common architectural assumption: a form renders exactly one root node.
+This assumption is understandable.
+HTML forms are inherently hierarchical: a form is rendered as a sequence of nested elements, and no native HTML mechanism allows two distinct sections of a form to share a common sub-section without duplicating it.
+The browser rendering model is a tree.
+The natural mapping from SHACL to HTML therefore starts from a single \texttt{sh:NodeShape}---identified by a shape URI passed as a configuration parameter---and expands it recursively into a tree of form sections.
+
+The problem is that RDF is not a tree.
+An RML mapping graph may contain multiple \texttt{TriplesMap} resources at the same level, none of which is necessarily subordinate to the other~\cite{rml-core}.
+In the tested tools, the only available workaround is to introduce an artificial root node that aggregates all top-level resources as properties---an approach that departs from the official RML-core vocabulary and requires additional shape engineering.
+This is precisely the solution adopted in this thesis (see Section~\ref{sec:shape-profile}), and its necessity is a direct consequence of the single-root limitation.
+
+\paragraph{Node reuse across the graph.}
+The mismatch runs deeper than the number of root nodes.
+In an RML mapping, two \texttt{TriplesMap} resources may share the same \texttt{LogicalSource}---for instance, when two mappings read
+from the same CSV file.
+In a tree-based form, such a shared node either has to be duplicated at each point of use---introducing the risk of inconsistency if the
+user modifies one copy but not the other---or the form must provide a mechanism to create a node once and reference it from multiple parent sections.
+
+The ULB-Darmstadt \textit{shacl-form} does provide a partial mechanism for this: the \texttt{setClassInstanceProvider} callback
+allows the form to propose a list of existing graph instances for a given class, enabling the user to select and reuse a pre-existing node~\cite{ulb-darmstadt-shacl-form}.
+However, empirical testing reveals that this mechanism only operates over nodes that already exist in the data graph before the form session begins.
+It does not support referencing a node that was \emph{created during the same form session}---which is precisely the scenario that arises when a user authors a complete RML mapping from scratch, creating a \texttt{LogicalSource} in one section and immediately reusing it in another.
+This gap is unsurprising: the typical use case for a generic SHACL form tool is describing one independent resource---one person, one address, one event---where node sharing within a single session does not arise. The scenario of authoring an interconnected RML mapping graph from scratch is outside that scope.
+
+This gap motivates one of the design decisions presented in Section~\ref{sec:shape-profile}.
+
+\paragraph{Why existing tools do not address this.}
+The single-root constraint and the absence of node-reuse mechanisms are not oversights in the surveyed tools: they reflect the scope for which those tools were designed.
+The ULB-Darmstadt \textit{shacl-form} library, for instance, requires a root shape URI to be passed as a configuration parameter~\cite{ulb-darmstadt-shacl-form}; empirical testing confirms that the form renders exactly the subgraph rooted at that node.
+No mechanism is provided for authoring multiple independent root nodes within a single editing session.
+This is a reasonable design choice for the common use case --- describing one person, one address, one event --- but becomes a limitation when the target data model is genuinely graph-shaped rather than tree-shaped.
+This thesis addresses precisely that gap.
+
+\section{Design Requirements}
+\label{sec:requirements}
+% ------------------------------------------------------------
+
+The two structural problems identified above --- the expressivity boundary of SHACL with respect to form generation, and the graph-versus-tree mismatch --- translate directly into five design requirements.
+
+\begin{description}
+    \item[R1 — Statically interpretable shape profile.] The shapes used to drive the form must contain only SHACL constructs that are \emph{statically interpretable} (see Section~\ref{sec:static-interp}): constructs whose contribution to widget selection, cardinality, and structural branching can be determined from the shape definition alone. Constructs that are meaningful for validation but not statically interpretable (e.g.\ \texttt{sh:sparql}, \texttt{sh:alternativePath}) must be rewritten or excluded from the form profile.
+
+    \item[R2 — Multi-root support.] The form must be able to manage multiple top-level RDF resources within a single editing session.
+    In the RML context, this means that the user must be able to create several \texttt{TriplesMap} resources without submitting the form between each one.
+
+    \item[R3 — Node reuse.] The form must allow a resource created in one part of the graph to be referenced from another part, without duplicating the resource's data. This is the mechanism that transforms tree-shaped authoring into graph-shaped authoring.
+
+    \item[R4 — Explicit alternatives.] When a property may take values of structurally incompatible types (expressed via \texttt{sh:or} or
+    \texttt{sh:xone}), the form must present the choice explicitly --- rendering exactly one branch at a time based on user selection ---rather than exposing all branches simultaneously.
+    Note that this requirement applies to \emph{typed} alternatives with unambiguous write semantics; path-level ambiguity such as \texttt{sh:alternativePath} is addressed separately by R1.
+
+    \item[R5 — Shape annotations.] The shape profile must be augmentable with interaction-oriented annotations that do not interfere with RML semantics and do not affect conformance validation. This allows the form to be guided without altering the domain model.
+\end{description}
+
+These requirements directly answer the question of \emph{what must be created}. The solution is not a new form library from scratch. Rather, it is (i) a methodology for writing SHACL shapes in a way that is form-friendly, and (ii) a set of extensions to an existing tool that implement R2 and R3. The next sections develop each component of this solution.
+
+\% TODO : modifier le terme " form-friendly " par un meilleur terme.
+
+%---Le tableau comparatif--------------------------------------------
+Table~\ref{tab:sota-requirements} situates the surveyed tools with respect to these requirements, and motivates the need for the contributions presented in the following sections.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+ & \textbf{R1} & \textbf{R2} & \textbf{R3} & \textbf{R4} & \textbf{R5} \\
+\midrule
+ULB-Darmstadt \textit{shacl-form} & $\circ$ & $\times$ & $\circ$ & \checkmark & $\times$ \\
+CSIRO \textit{shacl-form}         & $\circ$ & $\times$ & $\times$ & $\circ$    & $\times$ \\
+Shaperone                         & $\circ$ & $\times$ & $\times$ & $\circ$    & $\times$ \\
+%\textbf{This thesis aim}              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\caption{Coverage of design requirements by surveyed tools.
+  \checkmark~= supported, $\circ$~= partial, $\times$~= not supported.}
+\label{tab:sota-requirements}
+\end{table}
+% ------------------------------------------------------------
+
+% -------solution R1 + R5----------------------------------------------
+\section{The Form-Oriented Shape Profile (R1 + R5)}
+% ============================================================
+% The Form-Oriented Shape Profile
+% ============================================================
+\label{sec:shape-profile}
+
+In the RML use case, official SHACL shapes are already available.
+The first question is therefore whether these shapes can be reused directly for form generation, or whether they must be rewritten.
+Requirements R1 and R5 provide the answer.
+The shapes driving the form must, first, contain only constructs that are statically interpretable by the form engine and, second, be augmentable with interaction-oriented annotations that improve the usability of the form without altering the semantics of the generated mapping.
+
+This observation leads to a simple methodological choice.
+If shapes are written from scratch, they should be designed from the outset to satisfy these two requirements.
+If shapes already exist, as in the case of RML-core, they must be examined and transformed so that they satisfy them as well.
+In both cases, the result is what we call a \textbf{form-oriented shape profile}.
+
+\subsection{Why the official shapes are not sufficient}
+
+The official RML-core SHACL shapes~\cite{kg:rmlcore} are designed to validate RML mappings.
+They are therefore exhaustive, semantically precise, and closely aligned with the specification.
+However, these same qualities make them difficult to use directly as a form specification.
+A validation shape may express what is allowed in RDF without necessarily indicating how that constraint should be rendered in an interface.
+
+Several constructs found in or around the official shapes illustrate this gap.
+A first example is \texttt{sh:alternativePath}, which is used to express that several predicates are semantically acceptable, such as a shortcut property and its long-form equivalent.
+This is useful for validation, but ambiguous for form generation, because a form must decide which predicate it will actually write.
+A second example is the use of abstract and inherited shapes through \texttt{sh:and}, which captures reusable validation structure but also creates additional levels of nesting that do not necessarily correspond to meaningful interface sections for the user.
+A third example concerns advanced targeting mechanisms such as \texttt{sh:targetSubjectsOf} and \texttt{sh:targetObjectsOf}.
+These are useful to identify focus nodes in an existing RDF graph, but they do not provide a practical entry point for initializing a form whose goal is to create new data.
+Finally, some constraints are simply validation-oriented and do not help the form generator decide what widget or interaction pattern should be displayed.
+
+The conclusion is not that the official shapes are poorly designed.
+On the contrary, they are well suited to validation.
+The problem is that validation completeness and interface interpretability are not the same objective.
+A dedicated profile is therefore needed to bridge this gap.
+
+\subsection{What a profile is}
+
+In this thesis, the term \emph{profile} does not refer to a new language.
+It refers to a Turtle document containing SHACL shapes that have been selected, rewritten, and enriched for the specific purpose of form generation.
+The profile remains a SHACL shapes graph, but it is no longer intended to be a direct copy of the official validation shapes.
+Its purpose is different: not to express every possible validation rule, but to provide a shape set that can be interpreted reliably by the form engine.
+
+A form-oriented shape profile can therefore be understood as an operational subset and adaptation of a richer validation model.
+It preserves the intended modelling semantics of the domain, but recasts them into a form that better supports widget selection, structural decomposition, and interaction design.
+For the present work, this means deriving a form-oriented RML profile from the official RML-core shapes.
+
+\subsection{How shortcuts and alternative paths are rewritten}
+
+One of the central rewriting tasks concerns properties that can be expressed in more than one equivalent way in RDF.
+RML contains several such cases.
+For instance, the shortcut \texttt{rml:subject} is semantically equivalent to a more explicit long form using \texttt{rml:subjectMap} together with \texttt{rml:constant}.
+In the validation shapes, this kind of equivalence may be represented using \texttt{sh:alternativePath}.
+
+For form generation, however, such equivalence cannot remain implicit.
+A form must know which RDF structure it will produce.
+Two rewriting strategies are therefore possible.
+When the alternatives correspond to a meaningful user choice, the ambiguity can be made explicit in the interface, for example by rewriting the shape into a branching structure using \texttt{sh:xone} or \texttt{sh:or}.
+When the alternatives are only two notational variants of the same intent, the profile should commit to one canonical authoring form.
+
+In the RML use case, the second strategy is often preferable.
+The form profile can simply keep the long form and omit the shortcut from the interface.
+This does not remove any semantic expressivity from the mapping; it only fixes one writing convention for the sake of clarity and predictable rendering.
+The same principle applies more generally: every place where the official shapes leave several equivalent RDF encodings open, the form-oriented profile must reduce this multiplicity to one renderable structure or one explicit user choice.
+
+\subsection{How UI triples are kept separate from domain triples}
+
+A second design consequence of R5 is that the profile may contain information that exists only to guide the interface.
+This raises an important question: if the form is driven by shapes augmented with UI-oriented information, how can one ensure that these additional elements do not pollute the final exported mapping?
+
+The solution adopted here is to distinguish conceptually between a \textbf{domain layer} and a \textbf{UI layer}.
+The domain layer contains the shapes that describe the RML concepts to be authored, such as \texttt{TriplesMap}, \texttt{LogicalSource}, or
+\texttt{SubjectMap}.
+The UI layer contains additional elements used only to organise or improve the form, such as a wrapper root shape, ordering hints, grouping information, or other presentation-oriented metadata.
+
+This separation does not require a different formalism.
+Both layers are still written in Turtle and still use SHACL-compatible constructs.
+The distinction is methodological: some triples belong to the domain model, while others belong to the form configuration.
+At export time, only the domain RDF graph is retained as output.
+UI-related triples are filtered out, so that the resulting serialisation contains only the RML mapping itself.
+
+This approach is compatible with RML-core.
+The specification allows an RML mapping graph to contain additional triples outside the RML vocabulary, which are ignored by RML processors~\cite{kg:rmlcore}.
+This makes it possible to use auxiliary resources for form generation without invalidating the mapping.
+Nevertheless, from the user's point of view, these auxiliary triples should not appear as if they were part of the authored mapping.
+The separation therefore matters not only semantically, but also for the clarity of the user experience.
+
+\subsection{Annotations for interaction}
+
+Once the profile has been restricted to statically interpretable constructs, it can be enriched with annotations that improve the usability of the form.
+These annotations do not change the RDF semantics of the mapping; they only improve how the form is presented and filled in.
+Relevant annotations include human-readable labels, field descriptions, explicit ordering, grouping of related fields, and default values for frequent cases.
+In practice, this means using properties such as \texttt{sh:name}, \texttt{sh:description}, \texttt{sh:order}, \texttt{sh:group}, and, where
+supported, \texttt{sh:defaultValue}.
+
+This list is not intended to be exhaustive.
+The point is not to enumerate all possible UI-oriented predicates, but to show that the profile may legitimately contain declarative metadata that make the form clearer and more efficient to use.
+In the RML setting, these annotations are particularly useful because the same technical concept may otherwise appear opaque to non-expert users.
+Adding a short label, a description, or a sensible default can substantially reduce the cognitive cost of authoring a mapping through a form.
+
+%--------solution R2 + R3----------------------------------------------
+\section{The Tree-Graph Gap and Node Reuse (R2 + R3)}
+\label{sec:tree-graph-gap}
+
+Requirements R2 and R3 address a structural challenge that is independent of the shape vocabulary: the mismatch between the hierarchical rendering model of HTML forms and the graph-based data model of RDF.
+This section explains where this mismatch comes from, why it matters in the RML context, and what mechanism is proposed to address it.
+
+\subsection{How form engines render shapes}
+
+A SHACL-based form engine works by starting from a root node shape and recursively expanding each \texttt{sh:node} property into a nested sub-form.
+The result is a tree: each sub-form section has exactly one parent section, and the form as a whole is a hierarchical structure rooted at a single entry point.
+
+This rendering model is, in one hand, a design assumption of existing tools: they are built to edit one resource at a time, not to author interconnected graphs. On the other hand, it is also a direct consequence of how HTML works: the DOM is a tree.
+A form is rendered as a sequence of nested elements, and no native HTML mechanism allows two distinct sections of a form to share a common sub-section without duplicating it.
+This is not a limitation of any particular form library; it is a structural constraint of the web rendering model.
+
+The consequence for form generation is that a form engine, by default, produces a tree-shaped representation of the data, even when the underlying data model is a graph.
+
+\subsection{Why this matters for RML}
+
+An RML mapping is represented as an RDF graph, not a tree.
+In practice, this means that several resources in a mapping may legitimately point to the same third resource.
+The most common case is \texttt{LogicalSource} reuse: two or more \texttt{TriplesMap} resources reading from the same source file will reference the same \texttt{LogicalSource} node.
+More generally, any shared configuration --- a \texttt{SubjectMap} reused across mappings, a reference formulation shared by several iterables --- creates this kind of convergence in the graph.
+
+In a tree-based form, this situation cannot be represented directly.
+The options available are either to duplicate the shared resource at each point of use, which introduces inconsistency risks when the user later edits one copy but not the others, or to not expose reuse at all, which forces the user to
+manage shared structure manually outside the form.
+Neither option is satisfactory for a tool whose goal is to guide the user through the authoring of a complete and consistent mapping.
+
+\subsection{A session-level node registry}
+
+The proposed solution introduces a \textbf{session-level node registry}: a data structure maintained by the form throughout the authoring session.
+Each time the user creates a named resource through the form, that resource is registered in the registry with its IRI, its type, and optionally a display label.
+
+When the form encounters a property whose value should be a resource --- indicated by \texttt{sh:class} or \texttt{sh:node} in the shape --- it presents the user with two options instead of one:
+\begin{enumerate}
+  \item \textbf{Create new}: instantiate a fresh resource and open a sub-form for it, populating the registry as a side effect;
+  \item \textbf{Link existing}: select a previously created resource of a compatible type from the registry, without opening a sub-form.
+\end{enumerate}
+
+Option (2) is what makes graph-shaped authoring possible within a tree-shaped rendering model.
+The sub-form is not duplicated; instead, the form records a reference to an already-existing node.
+The result, at the RDF level, is a genuine shared resource --- one node pointed to by multiple parents --- rather than two independent copies.
+
+The registry is entirely in-memory and scoped to the current form session.
+It does not require a backend, a database, or any pre-loaded data.
+This is what distinguishes it from the \texttt{setClassInstanceProvider}
+mechanism available in the ULB-Darmstadt tool~\cite{ulb-darmstadt-shacl-form}, which enables selection from instances that already exist in the data graph before the session begins.
+In our case, the graph is being authored from scratch: no instances exist before the session starts, so the registry must be built dynamically as the user fills in the form.
+
+\subsection{Why this is the right level of abstraction}
+
+It is worth noting what the registry does \emph{not} do.
+It does not implement a full graph editor.
+It does not allow the user to navigate the graph arbitrarily, edit nodes out of context, or define cyclic references.
+Its scope is deliberately narrow: it supports the specific pattern of \emph{creating a node once and referencing it from multiple places}, which is precisely the pattern that arises in RML mappings with shared logical sources or shared subject maps.
+
+This narrowness is a feature, not a limitation.
+A full graph editor would reintroduce the complexity that the form-based approach is designed to avoid.
+The registry provides just enough graph expressivity to handle the cases that matter in practice, without compromising the guided, linear authoring experience that makes forms accessible to non-expert users.
+
+%--------solution R4 + détails-----------------------------------------
+\section{Handling Specific SHACL Constructs (R4)}
+\label{sec:alternatives}
+
+Requirement R4 concerns SHACL constructs that offer a choice between alternative RDF structures — branches whose expected predicates and sub-shapes differ, such that only one can be meaningfully instantiated at a time.
+This section describes how each of these constructs is handled in the form engine, and closes with a systematic classification of all SHACL Core constructs with respect to their treatment in this work.
+
+\subsection{\texttt{sh:xone} and \texttt{sh:or}: structural alternatives}
+
+\texttt{sh:or} and \texttt{sh:xone} enumerate a list of shapes, and the value of the property must conform to at least one of them (\texttt{sh:or}) or to exactly one of them (\texttt{sh:xone}).
+In the RML profile, the typical use case is a \texttt{TermMap} that can be either a \texttt{constant}, a \texttt{reference}, or a \texttt{template} --- three structurally distinct configurations.
+
+The challenge for form generation is that these constructs introduce a branching point in the shape graph.
+A naive rendering strategy would display all branches simultaneously, showing the fields of every alternative at once.
+This is problematic for two reasons.
+First, it is visually confusing: fields that are mutually exclusive appear as if they were all expected.
+Second, it produces ambiguous RDF output: if the user fills in fields from multiple branches, the resulting triples may conform to more than one alternative, which violates the intent of \texttt{sh:xone}.
+
+The solution adopted here is to render both constructs as an \textbf{explicit choice widget}: a dropdown placed above the branching section.
+The user first selects one alternative, and only the fields of that alternative are then displayed.
+Switching to another alternative is always possible via a reset mechanism,with a warning if data would be lost.
+This design makes the mutually exclusive nature of the alternatives immediately visible.
+
+Unlike the ULB-Darmstadt implementation, in which a choice made under \texttt{sh:or} cannot be undone without deleting the entire section, the present design provides a consistent reset mechanism for both \texttt{sh:xone} and \texttt{sh:or}~\cite{ulb-darmstadt-shacl-form}.
+This reflects the principle that authoring errors should always be recoverable without requiring the user to delete and recreate an entire mapping section.
+
+At the interface level, \texttt{sh:or} and \texttt{sh:xone} are rendered identically.
+The semantic difference between them is enforced at validation time on the resulting RDF, not during form entry.
+In the RML form profile developed for this thesis, the branching cases encountered are mostly instances of mutually exclusive alternatives.
+The appropriate construct for these cases is therefore \texttt{sh:xone}.
+\texttt{sh:or} remains supported by the form engine.
+
+\subsection{\texttt{sh:in}: value enumeration}
+
+\texttt{sh:in} constrains a property to a fixed set of literal values or IRIs.
+In the RML context, this appears for properties such as \texttt{rml:referenceFormulation}, whose value must be one of a small set of well-known IRIs (\texttt{ql:CSV}, \texttt{ql:JSONPath}, \texttt{ql:XPath}).
+
+Unlike \texttt{sh:xone}, \texttt{sh:in} does not open a sub-form after selection: the dropdown directly produces the chosen value as the object of the triple.
+The widget is therefore simpler --- a plain select element --- but the rendering principle is the same: the fixed list of options is read directly from the shape, and no free-text input is offered.
+
+\subsection{\texttt{sh:languageIn}: language tag enumeration}
+
+\texttt{sh:languageIn} constrains a literal value to a fixed set of language tags, such as \texttt{["en", "fr", "de"]}.
+Empirical testing on the ULB-Darmstadt form engine shows that this construct is rendered as a text field augmented with a language flag indicator on the right, which opens a dropdown of the permitted language tags when clicked.
+
+This interaction pattern is well-suited to the construct: it keeps the literal value and its language tag visually associated, and makes the permitted languages discoverable without occupying a separate form row.
+The same pattern is retained in the present design.
+
+\subsection{Relationship to \texttt{sh:alternativePath}}
+
+It is important not to confuse \texttt{sh:xone} and \texttt{sh:or} with \texttt{sh:alternativePath}.
+The latter is a path expression, not a constraint: it states that several predicates are acceptable for the same property slot.
+It does not describe alternative structures, but alternative ways to write the same predicate.
+
+Consider the following example from the RML-core shapes:
+
+\begin{minted}[fontsize=\small, frame=lines]{turtle}
+ex:SubjectMapShape sh:property [
+    sh:path [ sh:alternativePath ( rml:subjectMap rml:subject ) ] ;
+    sh:maxCount 1 ;
+] .
+\end{minted}
+
+This shape states that the value may be reached via either \texttt{rml:subjectMap}
+or the shortcut \texttt{rml:subject}.
+Both paths lead to the same semantic result: no structural choice is involved.
+By contrast, \texttt{sh:xone} would be used when the alternatives differ in
+structure, as in the following:
+
+\begin{minted}[fontsize=\small, frame=lines]{turtle}
+sh:xone (
+    [ sh:property [ sh:path rml:constant ; sh:maxCount 1 ] ]
+    [ sh:property [ sh:path rml:reference ; sh:maxCount 1 ] ]
+    [ sh:property [ sh:path rml:template ; sh:maxCount 1 ] ]
+) .
+\end{minted}
+
+Here, the user must choose one structural variant, not one predicate name.
+
+As discussed in Section~\ref{sec:shape-profile}, \texttt{sh:alternativePath} is handled by rewriting it to a canonical predicate in the form profile.
+\texttt{sh:xone} and \texttt{sh:or}, by contrast, are directly supported by the form rendering strategy described in this section.
+
+\subsection{Systematic classification of SHACL Core constructs}
+
+Not all SHACL Core constructs require dedicated treatment in a form engine.
+Table~\ref{tab:shacl-classification} classifies constructs with respect to their role in this work.
+The list is complete with respect to SHACL Core, but the treatment column onlycovers the constructs that appear in the RML form profile.
+
+\begin{table}[h]
+\centering
+\small
+\caption{SHACL Core constructs and their treatment in this work.}
+\label{tab:shacl-classification}
+\begin{tabular}{p{4.2cm} p{3.5cm} p{5.5cm}}
+\toprule
+\textbf{Construct(s)} & \textbf{Category} & \textbf{Treatment} \\
+\midrule
+\texttt{sh:xone}, \texttt{sh:or}
+  & Structural alternatives
+  & Explicit choice widget; this section \\
+\texttt{sh:in}
+  & Value enumeration
+  & Dropdown (literal/IRI); this section \\
+\texttt{sh:languageIn}
+  & Language enumeration
+  & Text + flag widget; this section \\
+\texttt{sh:alternativePath}
+  & Predicate ambiguity
+  & Rewritten to canonical predicate; \S\ref{sec:shape-profile} \\
+\texttt{sh:and}, \texttt{sh:node}
+  & Nesting / inheritance
+  & Flattened in form profile; \S\ref{sec:shape-profile} \\
+\texttt{sh:minCount}, \texttt{sh:maxCount}
+  & Cardinality
+  & Standard rendering (add/remove buttons) \\
+\texttt{sh:datatype}, \texttt{sh:class}
+  & Type constraints
+  & Widget selection (text, IRI, date\ldots) \\
+\texttt{sh:not}
+  & Negative constraint
+  & Not renderable; validation only \\
+\texttt{sh:closed}
+  & Closed world
+  & Validation only; no form impact \\
+\texttt{sh:sparql}
+  & SPARQL rules
+  & Out of scope; absent from RML profile \\
+\texttt{sh:pattern}, \texttt{sh:minLength}, \texttt{sh:maxLength}, \ldots
+  & String constraints
+  & Inline validation; no dedicated widget \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Constructs in the lower part of the table are either validation-only (they constrain the RDF graph but do not inform widget selection), out of scope for the RML profile, or handled as standard behaviour by anycompliant form engine.
+The constructs treated explicitly in this section are those that require a non-trivial rendering decision: they are not reducible to a plain text input or a simple add/remove button, and their incorrect rendering would produce ambiguous or invalid RDF output.
+
+%--------visualisation-------------------------------------------------
+\section{Interface Design Principles and Mockups}

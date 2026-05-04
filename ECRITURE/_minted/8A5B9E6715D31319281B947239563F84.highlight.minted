@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n+nn}{ex}\PYG{p}{:}\PYG{n+nt}{SubjectMapShape} \PYG{n+nn}{sh}\PYG{p}{:}\PYG{n+nt}{property} \PYG{p}{[}
+    \PYG{n+nn}{sh}\PYG{p}{:}\PYG{n+nt}{path} \PYG{p}{[} \PYG{n+nn}{sh}\PYG{p}{:}\PYG{n+nt}{alternativePath} \PYG{p}{(} \PYG{n+nn}{rml}\PYG{p}{:}\PYG{n+nt}{subjectMap} \PYG{n+nn}{rml}\PYG{p}{:}\PYG{n+nt}{subject} \PYG{p}{)} \PYG{p}{]} \PYG{p}{;}
+    \PYG{n+nn}{sh}\PYG{p}{:}\PYG{n+nt}{maxCount} \PYG{l+m+mi}{1} \PYG{p}{;}
+\PYG{p}{]} \PYG{p}{.}
+\end{MintedVerbatim}
